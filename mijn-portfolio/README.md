@@ -1,79 +1,69 @@
-<picture>
-    <source srcset="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_Solid_White.svg" media="(prefers-color-scheme: dark)">
-    <img src="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_RGB.svg" alt="Leptos Logo">
-</picture>
+# Mijn Portfolio
 
-# Leptos Client-Side Rendered (CSR) App Starter Template
+Een snelle en minimalistische portfolio website gebouwd met Rust en Leptos.
 
-This is a template for use with the [Leptos][Leptos] web framework using the [Trunk][Trunk] tool to compile and serve your app in development.
+## Over dit project
 
-## Creating your repo from the template
+Dit project is mijn persoonlijke portfolio waarin ik mijn projecten, skills en contactinformatie toon.
+De focus ligt op performance, eenvoud en een duidelijke presentatie van mijn werk.
 
-This template requires you to have `cargo-generate` and `trunk` installed. [`leptosfmt`](https://github.com/bram209/leptosfmt) is optional but highly recommended. You can install them with
+## Stack
 
-```sh
-cargo install cargo-generate trunk leptosfmt
-```
+* Rust
+* Leptos
+* Trunk (build tool)
+* WebAssembly (WASM)
 
+## Features
 
-To set up your project with this template, run
+* Snelle laadtijden via WebAssembly
+* Component-based UI met Leptos
+* Responsive design
+* Simpele en duidelijke structuur
 
-```sh
-cargo generate --git https://github.com/leptos-rs/start-trunk
-```
+## Lokaal draaien
 
-to generate your new project, then
+Zorg dat Rust en Trunk geïnstalleerd zijn.
 
-```sh
-cd mijn-portfolio
-```
-
-to go to your newly created project.
-
-By default, this template uses Rust `nightly` and requires that you've installed the `wasm` compilation target for your toolchain.
-
-
-Sass and Tailwind are also supported by the Trunk build tool, but are optional additions: [see here for more info on how to set those up with Trunk][Trunk-instructions].
-
-
-If you don't have Rust nightly, you can install it with
-```sh
-rustup toolchain install nightly --allow-downgrade
-```
-
-You can add the `wasm` compilation target to rust using
-```sh
+```bash
 rustup target add wasm32-unknown-unknown
+cargo install trunk
 ```
 
+Start de development server:
 
-## Developing your Leptos CSR project
-
-To develop your Leptos CSR project, running
-
-```sh
-trunk serve --port 3000 --open
+```bash
+trunk serve
 ```
 
-will open your app in your default browser at `http://localhost:3000`.
+Open daarna:
 
+http://127.0.0.1:3000
 
-## Deploying your Leptos CSR project
+## Projectstructuur
 
-To build a Leptos CSR app for release, use the command
-
-```sh
-trunk build --release
+```
+src/
+  components/
+  pages/
+  main.rs
 ```
 
-This will output the files necessary to run your app into the `dist` folder; you can then use any static site host to serve these files.
+## Doel
 
-For further information about hosting Leptos CSR apps, please refer to [the Leptos Book chapter on deployment available here][deploy-csr].
+Het doel van dit project is:
 
+* mijn programmeervaardigheden tonen
+* ervaring opdoen met Rust en frontend development
+* een overzicht geven van mijn projecten
 
-[Leptos]: https://github.com/leptos-rs/leptos
+## Toekomstige uitbreidingen
 
-[Trunk]: https://github.com/trunk-rs/trunk
-[Trunk-instructions]: https://trunkrs.dev/assets/
+* Extra projecten toevoegen
+* Verbeterde styling
+* Mogelijk blog of CMS-functionaliteit
 
-[deploy-csr]: https://book.leptos.dev/deployment/csr.html
+## Contact
+
+* GitHub: https://github.com/lucasr09
+* Email: [lucasrensen@outlook.com](mailto:lucasrensen@outlook.com)
