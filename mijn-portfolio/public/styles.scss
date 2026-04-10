@@ -1,52 +1,231 @@
 /* --------------------- Open Props --------------------------- */
-
-/* the props */
 @import "https://unpkg.com/open-props";
-
-/* optional imports that use the props */
 @import "https://unpkg.com/open-props/normalize.min.css";
-@import "https://unpkg.com/open-props/buttons.min.css";
-
 /* ------------------------------------------------------------ */
 
+
+/* --------------------- Variables ---------------------------- */
+$bg: #f6efe9;
+$surface: rgba(255, 250, 246, 0.9);
+$text: #1f1a17;
+$muted: #6f625b;
+$accent: #b98795;
+$border: rgba(120, 91, 80, 0.14);
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Base -------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: sans-serif;
-  text-align: center;
+  margin: 0;
+  font-family: Inter, sans-serif;
+  color: $text;
+
+  background:
+    linear-gradient(rgba(246,239,233,0.75), rgba(246,239,233,0.8)),
+  url("/marble.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Layout ------------------------------- */
 .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  text-align: center;
+  width: min(1100px, calc(100% - 2rem));
   margin: 0 auto;
+}
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Navbar ------------------------------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(16px);
+  background: rgba(246, 239, 233, 0.6);
+  border-bottom: 1px solid $border;
+
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+  }
+
+  .logo {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+
+    a {
+      color: $muted;
+      font-weight: 600;
+
+      &:hover {
+        color: $accent;
+      }
+    }
+  }
+}
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Hero -------------------------------- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+
+  .hero-card {
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: 24px;
+    padding: 3rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 8vw, 5rem);
+    margin: 1rem 0;
+  }
+
+  .hero-copy {
+    color: $muted;
+    max-width: 600px;
+  }
+
+  .hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+
+    .btn {
+      padding: 0.8rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 700;
+
+      &.primary {
+        background: $accent;
+        color: white;
+      }
+
+      &.secondary {
+        border: 1px solid $border;
+      }
+    }
+  }
+}
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Sections ----------------------------- */
+.section {
+  padding: 5rem 0;
+
+  h2 {
+    font-size: 2.5rem;
+  }
+}
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Projects ----------------------------- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+
+  .project-card {
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: 20px;
+    padding: 1.5rem;
+
+    h3 {
+      margin-top: 0.5rem;
+    }
+
+    p {
+      color: $muted;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 1rem;
+      color: $accent;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Skills ------------------------------- */
+.skills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+
+  .skill-pill {
+    padding: 0.6rem 1rem;
+    border-radius: 999px;
+    border: 1px solid $border;
+    background: $surface;
+    font-weight: 600;
+  }
+}
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Contact ------------------------------ */
+.contact-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 20px;
   padding: 2rem;
-}
 
-p,
-button {
-  margin: var(--size-6);
-}
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 
-body > picture,
-button {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  margin: 2rem;
+    a {
+      color: $accent;
+      font-weight: 600;
+    }
+  }
 }
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Responsive --------------------------- */
+@media (max-width: 900px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card {
+    flex-direction: column;
+  }
+}
+/* ------------------------------------------------------------ */
