@@ -4,13 +4,49 @@
 /* ------------------------------------------------------------ */
 
 
-/* --------------------- Variables ---------------------------- */
-$bg: #f6efe9;
-$surface: rgba(255, 250, 246, 0.9);
-$text: #1f1a17;
-$muted: #6f625b;
-$accent: #b98795;
-$border: rgba(120, 91, 80, 0.14);
+/* --------------------- Fonts ---------------------------------
+   Inter voor lopende tekst, Space Grotesk voor koppen/labels: een
+   herkenbaar "developer portfolio" font-paar i.p.v. de vage systeem-fallback
+   die er stond zonder dat "Inter" ooit echt geladen werd. */
+@import "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap";
+
+$font-body: "Inter", system-ui, sans-serif;
+$font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Variables ----------------------------
+   De kleuren zelf staan hieronder als CSS custom properties (":root" en
+   ":root.dark"), zodat ze runtime kunnen wisselen voor de dark-mode toggle.
+   Deze Sass-variabelen zijn puur een korte naam ervoor, zodat de rest van
+   dit bestand niet overal "var(--x)" hoeft te schrijven. */
+$bg: var(--bg);
+$surface: var(--surface);
+$text: var(--text);
+$muted: var(--muted);
+$accent: var(--accent);
+$accent-2: var(--accent-2);
+$border: var(--border);
+
+:root {
+  --bg: #f6efe9;
+  --surface: rgba(255, 250, 246, 0.9);
+  --text: #1f1a17;
+  --muted: #6f625b;
+  --accent: #b98795;
+  --accent-2: #6f8a9c;
+  --border: rgba(120, 91, 80, 0.14);
+}
+
+:root.dark {
+  --bg: #17151b;
+  --surface: rgba(32, 30, 37, 0.85);
+  --text: #f3efe9;
+  --muted: #a89ea3;
+  --accent: #dba6b4;
+  --accent-2: #9cbdd0;
+  --border: rgba(255, 255, 255, 0.1);
+}
 /* ------------------------------------------------------------ */
 
 
@@ -19,10 +55,17 @@ $border: rgba(120, 91, 80, 0.14);
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  font-family: $font-body;
   color: $text;
+  letter-spacing: -0.01em;
+  transition: background-color 0.4s var(--ease-out-3), color 0.3s var(--ease-out-3);
 
   background:
     linear-gradient(rgba(246,239,233,0.75), rgba(246,239,233,0.8)),
@@ -33,9 +76,83 @@ body {
   background-attachment: fixed;
 }
 
+// Donker thema: de warme marmertextuur past niet bij een donker scherm, dus
+// een vlakke, technischere gradient in plaats van de foto.
+:root.dark body {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(219, 166, 180, 0.06), transparent 55%),
+    radial-gradient(circle at 80% 60%, rgba(156, 189, 208, 0.05), transparent 55%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+h1, h2, h3,
+.logo,
+.section-label,
+.project-card h3,
+.hero-card h1 {
+  font-family: $font-display;
+  letter-spacing: -0.02em;
+}
+
 a {
   text-decoration: none;
   color: inherit;
+}
+
+/* --------------------- Loading state -------------------------
+   Verborgen zodra Leptos zijn root-element (.site-shell) aan de body heeft
+   toegevoegd. ":has()" heeft brede browserondersteuning; mocht een browser
+   het niet kennen dan blijft de loader gewoon zichtbaar i.p.v. een crash. */
+#app-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $bg;
+  transition: opacity 0.4s var(--ease-out-3), visibility 0.4s var(--ease-out-3);
+}
+
+.app-loading-mark {
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: $accent;
+  animation: app-loading-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes app-loading-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+body:has(> .site-shell) #app-loading {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+/* ------------------------------------------------------------ */
+
+/* Respecteer voorkeur voor minder beweging: alle animaties/transities uit */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .section, .hero-card > *, .skills-marquee {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .skills-track, .app-loading-mark {
+    animation: none !important;
+  }
 }
 /* ------------------------------------------------------------ */
 
@@ -52,15 +169,55 @@ a {
 .topbar {
   position: sticky;
   top: 0;
+  z-index: 100;
   backdrop-filter: blur(16px);
-  background: rgba(246, 239, 233, 0.6);
-  border-bottom: 1px solid $border;
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s var(--ease-out-3), border-color 0.3s var(--ease-out-3), box-shadow 0.3s var(--ease-out-3);
+
+  &.scrolled {
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    border-bottom-color: $border;
+    box-shadow: var(--shadow-2);
+  }
 
   .nav-inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid $border;
+    border-radius: 999px;
+    background: transparent;
+    color: $text;
+    cursor: pointer;
+    transition: background 0.25s var(--ease-out-3), transform 0.25s var(--ease-out-3), border-color 0.25s var(--ease-out-3);
+
+    svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    &:hover {
+      background: $surface;
+      transform: translateY(-2px);
+      border-color: $accent;
+    }
   }
 
   .logo {
@@ -70,14 +227,119 @@ a {
 
   .nav-links {
     display: flex;
+    align-items: center;
     gap: 1.5rem;
 
     a {
+      position: relative;
       color: $muted;
       font-weight: 600;
+      padding-bottom: 0.3rem;
+      transition: color 0.25s var(--ease-out-3);
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        background: $accent;
+        border-radius: 2px;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s var(--ease-out-3);
+      }
 
       &:hover {
-        color: $accent;
+        color: $text;
+      }
+
+      &:hover::after {
+        transform: scaleX(1);
+      }
+
+      &.active {
+        color: $text;
+      }
+
+      &.active::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  // Hamburger-knop: alleen zichtbaar op smalle schermen (zie media query onder).
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: $text;
+      border-radius: 2px;
+      transition: transform 0.3s var(--ease-out-3), opacity 0.3s var(--ease-out-3);
+    }
+
+    &.open {
+      span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      span:nth-child(2) {
+        opacity: 0;
+      }
+
+      span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    .nav-toggle {
+      display: flex;
+    }
+
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: color-mix(in srgb, var(--bg) 96%, transparent);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid $border;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s var(--ease-out-3);
+
+      a {
+        padding: 1rem 1.25rem;
+        border-top: 1px solid $border;
+      }
+
+      a.nav-resume {
+        margin: 0.75rem 1.25rem;
+        text-align: center;
+      }
+
+      &.open {
+        max-height: 500px;
       }
     }
   }
@@ -96,6 +358,18 @@ a {
     border: 1px solid $border;
     border-radius: 24px;
     padding: 3rem;
+
+    // Cascaderende intro: elk direct kind valt met een korte vertraging naar binnen.
+    > * {
+      opacity: 0;
+      animation: hero-in 0.8s var(--ease-out-3) forwards;
+    }
+
+    > *:nth-child(1) { animation-delay: 0.05s; }
+    > *:nth-child(2) { animation-delay: 0.15s; }
+    > *:nth-child(3) { animation-delay: 0.25s; }
+    > *:nth-child(4) { animation-delay: 0.35s; }
+    > *:nth-child(5) { animation-delay: 0.45s; }
   }
 
   h1 {
@@ -111,22 +385,70 @@ a {
   .hero-actions {
     margin-top: 2rem;
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
+  }
 
-    .btn {
-      padding: 0.8rem 1.2rem;
-      border-radius: 999px;
-      font-weight: 700;
+  .hero-location {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $muted;
+    font-size: 0.9rem;
 
-      &.primary {
-        background: $accent;
-        color: white;
-      }
-
-      &.secondary {
-        border: 1px solid $border;
-      }
+    svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: $accent;
     }
+  }
+}
+
+/* --------------------- Buttons -------------------------------
+   Globale .btn component: gebruikt in de hero-actions én de resume-knop
+   in de nav, dus niet onder .hero-actions scopen (stond eerst per ongeluk
+   genest, waardoor .btn-primary/.btn-secondary nergens matchten). */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: transform 0.25s var(--ease-out-3), box-shadow 0.25s var(--ease-out-3), filter 0.25s var(--ease-out-3), background 0.25s var(--ease-out-3);
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-3);
+  }
+
+  &.btn-primary {
+    background: $accent;
+    color: white;
+
+    &:hover {
+      filter: brightness(1.08);
+    }
+  }
+
+  &.btn-secondary {
+    border: 1px solid $border;
+
+    &:hover {
+      background: $surface;
+    }
+  }
+}
+/* ------------------------------------------------------------ */
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 /* ------------------------------------------------------------ */
@@ -135,9 +457,51 @@ a {
 /* --------------------- Sections ----------------------------- */
 .section {
   padding: 5rem 0;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s var(--ease-out-3), transform 0.7s var(--ease-out-3);
+
+  &.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   h2 {
     font-size: 2.5rem;
+  }
+}
+
+.section-label {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.6rem;
+  color: $accent;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 32px;
+    height: 3px;
+    border-radius: 2px;
+    background: $accent;
+  }
+}
+
+// Om/om wisselende accentkleur per sectie, voor wat visuele afwisseling
+// i.p.v. overal exact dezelfde kleur.
+#projects .section-label,
+#contact .section-label {
+  color: $accent-2;
+
+  &::after {
+    background: $accent-2;
   }
 }
 /* ------------------------------------------------------------ */
@@ -154,6 +518,15 @@ a {
     border: 1px solid $border;
     border-radius: 20px;
     padding: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s var(--ease-out-3), transform 0.5s var(--ease-out-3),
+      box-shadow 0.3s var(--ease-out-3), border-color 0.3s var(--ease-out-3);
+
+    &:hover {
+      box-shadow: var(--shadow-4);
+      border-color: $accent;
+    }
 
     h3 {
       margin-top: 0.5rem;
@@ -167,29 +540,92 @@ a {
       display: inline-block;
       margin-top: 1rem;
       color: $accent;
+      transition: opacity 0.25s var(--ease-out-3);
 
       &:hover {
         opacity: 0.8;
       }
     }
+
+    // Middelste kaart met de tweede accentkleur, zodat de rij niet drie keer
+    // identiek oogt.
+    &:nth-child(2) {
+      &:hover {
+        border-color: $accent-2;
+      }
+
+      a {
+        color: $accent-2;
+      }
+    }
+
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) {
+        transition-delay: #{$i * 0.08}s;
+      }
+    }
+  }
+}
+
+// Zelfde specificiteitsniveau als de hover-regel hierboven nodig, anders wint
+// deze regel altijd en blijft de hover-lift dood door de hogere specificiteit
+// van de ".section.revealed" ouder-keten.
+.section.revealed .projects-grid .project-card {
+  opacity: 1;
+  transform: translateY(0);
+
+  &:hover {
+    transform: translateY(-6px);
   }
 }
 /* ------------------------------------------------------------ */
 
 
 /* --------------------- Skills ------------------------------- */
-.skills-wrap {
+.skills-marquee {
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out-3);
+
+  // Zachte fade aan weerszijden zodat de loop niet abrupt oogt.
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.section.revealed .skills-marquee {
+  opacity: 1;
+}
+
+.skills-track {
   display: flex;
-  flex-wrap: wrap;
+  width: max-content;
   gap: 0.8rem;
+  animation: skills-scroll 26s linear infinite;
+  will-change: transform;
 
   .skill-pill {
-    padding: 0.6rem 1rem;
+    padding: 0.6rem 1.2rem;
     border-radius: 999px;
     border: 1px solid $border;
     background: $surface;
     font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.25s var(--ease-out-3), color 0.25s var(--ease-out-3), border-color 0.25s var(--ease-out-3);
+
+    &:hover {
+      background: $accent;
+      color: white;
+      border-color: $accent;
+    }
   }
+}
+
+// De track bevat 2 identieke sets skills (zie lib.rs): -50% schuiven sluit
+// de tweede set naadloos aan op de eerste.
+@keyframes skills-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 /* ------------------------------------------------------------ */
 
@@ -212,6 +648,13 @@ a {
     a {
       color: $accent;
       font-weight: 600;
+      transition: transform 0.25s var(--ease-out-3), opacity 0.25s var(--ease-out-3);
+      display: inline-block;
+
+      &:hover {
+        transform: translateX(4px);
+        opacity: 0.8;
+      }
     }
   }
 }

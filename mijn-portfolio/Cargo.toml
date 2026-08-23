@@ -7,11 +7,10 @@ edition = "2024"
 
 [dependencies]
 leptos = { version = "0.8", features = ["csr"] }
-leptos_meta = { version = "0.8" }
-leptos_router = { version = "0.8" }
 console_log = "1"
 log = "0.4"
 console_error_panic_hook = "0.1"
+leptos-use = { version = "0.19.0", default-features = false, features = ["use_intersection_observer", "use_window_scroll", "use_color_mode"] }
 
 # utils
 # strum = { version = "0.25", features = ["derive", "strum_macros"] }

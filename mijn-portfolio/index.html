@@ -4,11 +4,41 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lucas Rensen | Portfolio</title>
+    <meta
+      name="description"
+      content="Portfolio of Lucas Rensen, a software developer focused on Rust, backend development, and clean web experiences."
+    />
+
+    <!-- Open Graph / social previews -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Lucas Rensen | Portfolio" />
+    <meta
+      property="og:description"
+      content="Portfolio of Lucas Rensen, a software developer focused on Rust, backend development, and clean web experiences."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Lucas Rensen | Portfolio" />
+    <meta
+      name="twitter:description"
+      content="Portfolio of Lucas Rensen, a software developer focused on Rust, backend development, and clean web experiences."
+    />
 
     <link data-trunk rel="icon" href="public/favicon.ico" />
     <link data-trunk rel="scss" href="public/styles.scss" />
     <link data-trunk rel="rust" data-wasm-opt="z" data-weak-refs />
     <link data-trunk rel="copy-file" href="public/marble.jpg" />
+    <link data-trunk rel="copy-file" href="public/CV_Lucas_Rensen.pdf" />
   </head>
-  <body></body>
+  <body>
+    <!--
+      Statische loader: dit is een CSR-app, dus er is geen server-rendered HTML.
+      Zonder dit zou de pagina eerst even helemaal leeg zijn totdat de WASM
+      geladen en gemount is. #app-loading wordt puur met CSS verborgen zodra
+      leptos zijn ".site-shell" root-element aan de body heeft toegevoegd
+      (zie styles.scss, ":has(> .site-shell)").
+    -->
+    <div id="app-loading" aria-hidden="true">
+      <div class="app-loading-mark">LR</div>
+    </div>
+  </body>
 </html>
