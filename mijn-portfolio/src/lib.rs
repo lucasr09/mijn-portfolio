@@ -57,7 +57,7 @@ pub fn App() -> impl IntoView {
             title: "EU5 Mission Mod",
             description: (
                 "Four full mission trees (Denmark, Norway, Iceland, Ireland) contributed to a community mod for Europa Universalis V, written in Paradox's scripting format.",
-                "Vier volledige missiebomen (Denemarken, Noorwegen, IJsland, Ierland) bijgedragen aan een community-mod voor Europa Universalis V, geschreven in Paradox's scripttaal.",
+                "Vier volledige missiebomen (Denemarken, Noorwegen, IJsland, Ierland) toegevoegd aan een community-mod voor Europa Universalis V, geschreven in de scripttaal van Paradox.",
             ),
             stack: "Paradox Script, EU5 Modding",
             link: "https://github.com/lucasr09/Eu5MissionMod",
@@ -99,7 +99,7 @@ pub fn App() -> impl IntoView {
             dates: ("Nov 2025 – Mar 2026", "nov 2025 – mrt 2026"),
             bullets: vec![(
                 "Worked the counter and kitchen at the business behind my Kolkie Website and Kolkie Inkloksysteem projects",
-                "Achter de balie en in de keuken gewerkt bij de zaak achter mijn Kolkie Website- en Kolkie Inkloksysteem-projecten",
+                "Achter de balie en in de keuken gewerkt bij de zaak waarvoor ik ook de Kolkie Website en het Kolkie Inkloksysteem heb gebouwd",
             )],
         },
         ExperienceEntry {
@@ -113,7 +113,7 @@ pub fn App() -> impl IntoView {
                 ),
                 (
                     "Developed a central launcher tool built around one generic \"open file\" function, so staff could jump to frequently used programs with a click instead of navigating to them manually",
-                    "Centrale launcher-tool ontwikkeld rond één generieke \"open file\"-functie, zodat collega's met één klik naar veelgebruikte programma's konden i.p.v. handmatig te navigeren",
+                    "Centrale launcher-tool ontwikkeld rond één generieke \"open file\"-functie, zodat collega's met één klik naar veelgebruikte programma's konden springen in plaats van er handmatig naartoe te navigeren",
                 ),
                 (
                     "Assisted with automation projects",
@@ -341,7 +341,7 @@ pub fn App() -> impl IntoView {
                             {move || t(
                                 lang.get(),
                                 "I build software with a focus on Rust, backend development, and clean web experiences.",
-                                "Ik bouw software met een focus op Rust, backend-ontwikkeling en overzichtelijke webervaringen.",
+                                "Ik bouw software met een focus op Rust, backend-ontwikkeling en overzichtelijke webapplicaties.",
                             )}
                         </p>
                         <div class="hero-actions">
@@ -357,7 +357,7 @@ pub fn App() -> impl IntoView {
                                 <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                                 <circle cx="12" cy="10" r="3" />
                             </svg>
-                            {move || t(lang.get(), "Gelderland, NL — open to opportunities nearby", "Gelderland, NL — open voor kansen in de buurt")}
+                            {move || t(lang.get(), "Gelderland, NL — open to opportunities nearby", "Gelderland, NL — open voor kansen in de regio")}
                         </p>
                     </div>
                 </section>
@@ -369,7 +369,7 @@ pub fn App() -> impl IntoView {
                             <h2>{move || t(
                                 lang.get(),
                                 "Developer focused on building solid software without unnecessary complexity.",
-                                "Developer gericht op het bouwen van solide software zonder onnodige complexiteit.",
+                                "Developer die solide software bouwt, zonder onnodige complexiteit.",
                             )}</h2>
                         </div>
                         <div class="content-card">
@@ -377,7 +377,7 @@ pub fn App() -> impl IntoView {
                                 {move || t(
                                     lang.get(),
                                     "I enjoy building software that is practical, structured, and technically honest.",
-                                    "Ik bouw graag software die praktisch, gestructureerd en technisch eerlijk is.",
+                                    "Ik bouw graag software die praktisch, gestructureerd en zonder franje in elkaar zit.",
                                 )}
                             </p>
                             <p>
@@ -391,7 +391,7 @@ pub fn App() -> impl IntoView {
                                 {move || t(
                                     lang.get(),
                                     "I care about clean code, clear architecture, and building things that are useful rather than overdesigned.",
-                                    "Ik hecht waarde aan schone code, heldere architectuur en het bouwen van dingen die nuttig zijn in plaats van overontworpen.",
+                                    "Ik hecht waarde aan schone code, heldere architectuur en het bouwen van dingen die nuttig zijn in plaats van onnodig ingewikkeld.",
                                 )}
                             </p>
                         </div>
@@ -433,7 +433,7 @@ pub fn App() -> impl IntoView {
                             {move || t(
                                 lang.get(),
                                 "Also worked consistently in hospitality alongside school: kitchen and service staff at Ardoer Camping De Jutberg (seasonal, 2023–present) and lifeguard duty there in the summer of 2021.",
-                                "Daarnaast al jaren horeca-werk naast school: keuken- en bedieningswerk bij Ardoer Camping De Jutberg (seizoenswerk, 2023–heden) en badmeester daar in de zomer van 2021.",
+                                "Daarnaast al jaren horecawerk naast school: keuken en bediening bij Ardoer Camping De Jutberg (seizoenswerk, 2023–heden), en badmeester in de zomer van 2021.",
                             )}
                         </p>
                     </div>
