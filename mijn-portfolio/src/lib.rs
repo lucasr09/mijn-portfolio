@@ -2,27 +2,141 @@ use leptos::html;
 use leptos::prelude::*;
 use leptos_use::{use_color_mode, use_intersection_observer, use_window_scroll, ColorMode, UseColorModeReturn};
 
+#[derive(Clone, Copy, PartialEq)]
+enum Lang {
+    En,
+    Nl,
+}
+
+/// Kiest de Engelse of Nederlandse variant van een stuk tekst.
+fn t(lang: Lang, en: &'static str, nl: &'static str) -> &'static str {
+    match lang {
+        Lang::En => en,
+        Lang::Nl => nl,
+    }
+}
+
+fn stored_lang() -> Lang {
+    window()
+        .local_storage()
+        .ok()
+        .flatten()
+        .and_then(|storage| storage.get_item("lang").ok().flatten())
+        .filter(|v| v == "nl")
+        .map(|_| Lang::Nl)
+        .unwrap_or(Lang::En)
+}
+
+struct ProjectEntry {
+    title: &'static str,
+    description: (&'static str, &'static str),
+    stack: &'static str,
+    link: &'static str,
+}
+
+struct ExperienceEntry {
+    role: (&'static str, &'static str),
+    company: &'static str,
+    dates: (&'static str, &'static str),
+    bullets: Vec<(&'static str, &'static str)>,
+}
+
 #[component]
 pub fn App() -> impl IntoView {
     let projects = vec![
-        (
-            "Kolkie Website",
-            "A web application built with Rocket for a snackbar, focused on backend structure, routing, and performance.",
-            "Rust, Rocket",
-            "https://github.com/lucasr09/KolkieWebsite",
-        ),
-        (
-            "EU5 Mission Mod",
-            "Four full mission trees (Denmark, Norway, Iceland, Ireland) contributed to a community mod for Europa Universalis V, written in Paradox's scripting format.",
-            "Paradox Script, EU5 Modding",
-            "https://github.com/lucasr09/Eu5MissionMod",
-        ),
-        (
-            "Kolkie Inkloksysteem",
-            "A clock-in and scheduling system for the staff of Cafetaria Kolkie, with a Rust backend and a reactive Svelte frontend backed by SQLite.",
-            "Rust, Rocket, Svelte, SQLite",
-            "https://github.com/lucasr09/kolkie-inklok",
-        ),
+        ProjectEntry {
+            title: "Kolkie Website",
+            description: (
+                "A web application built with Rocket for a snackbar, focused on backend structure, routing, and performance.",
+                "Een webapplicatie gebouwd met Rocket voor een snackbar, gericht op backend-structuur, routing en performance.",
+            ),
+            stack: "Rust, Rocket",
+            link: "https://github.com/lucasr09/KolkieWebsite",
+        },
+        ProjectEntry {
+            title: "EU5 Mission Mod",
+            description: (
+                "Four full mission trees (Denmark, Norway, Iceland, Ireland) contributed to a community mod for Europa Universalis V, written in Paradox's scripting format.",
+                "Vier volledige missiebomen (Denemarken, Noorwegen, IJsland, Ierland) bijgedragen aan een community-mod voor Europa Universalis V, geschreven in Paradox's scripttaal.",
+            ),
+            stack: "Paradox Script, EU5 Modding",
+            link: "https://github.com/lucasr09/Eu5MissionMod",
+        },
+        ProjectEntry {
+            title: "Kolkie Inkloksysteem",
+            description: (
+                "A clock-in and scheduling system for the staff of Cafetaria Kolkie, with a Rust backend and a reactive Svelte frontend backed by SQLite.",
+                "Een in- en uitkloksysteem met roosterfunctie voor het personeel van Cafetaria Kolkie, met een Rust-backend en een reactieve Svelte-frontend op SQLite.",
+            ),
+            stack: "Rust, Rocket, Svelte, SQLite",
+            link: "https://github.com/lucasr09/kolkie-inklok",
+        },
+    ];
+
+    let experience = vec![
+        ExperienceEntry {
+            role: ("Software Developer — Internship", "Software Developer — Stage"),
+            company: "ProRail",
+            dates: ("Feb 2026 – Jun 2026", "feb 2026 – jun 2026"),
+            bullets: vec![
+                (
+                    "Contributed to the development of the BTD planner",
+                    "Bijgedragen aan de ontwikkeling van de BTD-planner",
+                ),
+                (
+                    "Improved usability and system performance",
+                    "Gebruiksvriendelijkheid en systeemprestaties verbeterd",
+                ),
+                (
+                    "Worked in a Scrum team, taking part in daily standups, retrospectives, week-start planning, and BCB meetings",
+                    "Gewerkt in een Scrum-team, met deelname aan daily standups, retrospectives, weekstarts en BCB-overleggen",
+                ),
+            ],
+        },
+        ExperienceEntry {
+            role: ("Cafetaria Staff", "Cafetariamedewerker"),
+            company: "Cafetaria Lunchroom Kolkie",
+            dates: ("Nov 2025 – Mar 2026", "nov 2025 – mrt 2026"),
+            bullets: vec![(
+                "Worked the counter and kitchen at the business behind my Kolkie Website and Kolkie Inkloksysteem projects",
+                "Achter de balie en in de keuken gewerkt bij de zaak achter mijn Kolkie Website- en Kolkie Inkloksysteem-projecten",
+            )],
+        },
+        ExperienceEntry {
+            role: ("Software Developer — Internship", "Software Developer — Stage"),
+            company: "Coldenhove Papierfabriek",
+            dates: ("Feb 2025 – Jul 2025", "feb 2025 – jul 2025"),
+            bullets: vec![
+                (
+                    "Built a new company-wide phone directory application",
+                    "Nieuwe bedrijfsbrede telefoonlijst-applicatie gebouwd",
+                ),
+                (
+                    "Developed a central launcher tool built around one generic \"open file\" function, so staff could jump to frequently used programs with a click instead of navigating to them manually",
+                    "Centrale launcher-tool ontwikkeld rond één generieke \"open file\"-functie, zodat collega's met één klik naar veelgebruikte programma's konden i.p.v. handmatig te navigeren",
+                ),
+                (
+                    "Assisted with automation projects",
+                    "Meegelopen met automatiseringsprojecten",
+                ),
+            ],
+        },
+        ExperienceEntry {
+            role: ("Software Developer — Internship", "Software Developer — Stage"),
+            company: "ACTwebservice",
+            dates: ("Sep 2023 – Feb 2024", "sep 2023 – feb 2024"),
+            bullets: vec![
+                (
+                    "Built websites for external clients using Duda",
+                    "Websites gebouwd voor externe klanten met Duda",
+                ),
+                ("Handled client conversations", "Klantgesprekken gevoerd"),
+                (
+                    "Designed and set up databases",
+                    "Databases ontworpen en opgezet",
+                ),
+            ],
+        },
     ];
 
     let skills = vec![
@@ -42,19 +156,40 @@ pub fn App() -> impl IntoView {
 
     // De marquee bevat de lijst 2 keer: de CSS-animatie schuift precies -50%
     // en sluit dan naadloos aan op de tweede set (zelfde truc als de fotoslider
-    // op de Kolkie-website, maar dan voor tekst-pills).
+    // op de Kolkie-website, maar dan voor tekst-pills). Taal-onafhankelijk,
+    // want technologienamen worden niet vertaald.
     let skills_marquee: Vec<&str> = skills.iter().chain(skills.iter()).copied().collect();
+
+    let (lang, set_lang) = signal(stored_lang());
+    let toggle_lang = move |_| {
+        set_lang.update(|l| *l = if *l == Lang::En { Lang::Nl } else { Lang::En });
+    };
+
+    // Voorkeur onthouden in localStorage, en de "lang"-attribuut op <html>
+    // meegeven (belangrijk voor screenreaders en correcte uitspraak).
+    Effect::new(move |_| {
+        let code = if lang.get() == Lang::Nl { "nl" } else { "en" };
+        if let Ok(Some(storage)) = window().local_storage() {
+            let _ = storage.set_item("lang", code);
+        }
+        if let Some(el) = document().document_element() {
+            let _ = el.set_attribute("lang", code);
+        }
+    });
 
     // Elke sectie krijgt een eigen IntersectionObserver: "revealed" wordt één keer
     // true (voor de scroll-in animatie), "in_view" volgt de sectie heen en weer
     // (voor de actieve link in de nav, scrollspy-stijl).
     let about_ref = NodeRef::<html::Section>::new();
+    let experience_ref = NodeRef::<html::Section>::new();
     let projects_ref = NodeRef::<html::Section>::new();
     let skills_ref = NodeRef::<html::Section>::new();
     let contact_ref = NodeRef::<html::Section>::new();
 
     let (about_revealed, set_about_revealed) = signal(false);
     let (about_in_view, set_about_in_view) = signal(false);
+    let (experience_revealed, set_experience_revealed) = signal(false);
+    let (experience_in_view, set_experience_in_view) = signal(false);
     let (projects_revealed, set_projects_revealed) = signal(false);
     let (projects_in_view, set_projects_in_view) = signal(false);
     let (skills_revealed, set_skills_revealed) = signal(false);
@@ -68,6 +203,15 @@ pub fn App() -> impl IntoView {
             set_about_in_view.set(intersecting);
             if intersecting {
                 set_about_revealed.set(true);
+            }
+        }
+    });
+    use_intersection_observer(experience_ref, move |entries, _| {
+        if let Some(entry) = entries.first() {
+            let intersecting = entry.is_intersecting();
+            set_experience_in_view.set(intersecting);
+            if intersecting {
+                set_experience_revealed.set(true);
             }
         }
     });
@@ -135,7 +279,19 @@ pub fn App() -> impl IntoView {
                     <a class="logo" href="#home">"LR"</a>
 
                     <div class="nav-right">
-                        <button class="theme-toggle" aria-label="Wissel tussen licht en donker thema" on:click=toggle_theme>
+                        <button
+                            class="lang-toggle"
+                            aria-label=move || t(lang.get(), "Switch to Dutch", "Overschakelen naar Engels")
+                            on:click=toggle_lang
+                        >
+                            {move || t(lang.get(), "NL", "EN")}
+                        </button>
+
+                        <button
+                            class="theme-toggle"
+                            aria-label=move || t(lang.get(), "Toggle theme", "Wissel van thema")
+                            on:click=toggle_theme
+                        >
                             <Show
                                 when=is_dark
                                 fallback=|| view! {
@@ -166,10 +322,11 @@ pub fn App() -> impl IntoView {
                         </button>
 
                         <nav class="nav-links" class:open=move || nav_open.get()>
-                            <a href="#about" class:active=move || about_in_view.get() on:click=move |_| close_nav()>"About"</a>
-                            <a href="#projects" class:active=move || projects_in_view.get() on:click=move |_| close_nav()>"Projects"</a>
-                            <a href="#skills" class:active=move || skills_in_view.get() on:click=move |_| close_nav()>"Skills"</a>
-                            <a href="#contact" class:active=move || contact_in_view.get() on:click=move |_| close_nav()>"Contact"</a>
+                            <a href="#about" class:active=move || about_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "About", "Over mij")}</a>
+                            <a href="#experience" class:active=move || experience_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Experience", "Ervaring")}</a>
+                            <a href="#projects" class:active=move || projects_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Projects", "Projecten")}</a>
+                            <a href="#skills" class:active=move || skills_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Skills", "Vaardigheden")}</a>
+                            <a href="#contact" class:active=move || contact_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Contact", "Contact")}</a>
                         </nav>
                     </div>
                 </div>
@@ -178,21 +335,29 @@ pub fn App() -> impl IntoView {
             <main>
                 <section id="home" class="hero">
                     <div class="container hero-card">
-                        <p class="eyebrow">"Rust • Backend • Web Development"</p>
+                        <p class="eyebrow">{move || t(lang.get(), "Rust • Backend • Web Development", "Rust • Backend • Webontwikkeling")}</p>
                         <h1>"Lucas Rensen"</h1>
                         <p class="hero-copy">
-                            "I build software with a focus on Rust, backend development, and clean web experiences."
+                            {move || t(
+                                lang.get(),
+                                "I build software with a focus on Rust, backend development, and clean web experiences.",
+                                "Ik bouw software met een focus op Rust, backend-ontwikkeling en overzichtelijke webervaringen.",
+                            )}
                         </p>
                         <div class="hero-actions">
-                            <a class="btn btn-primary" href="/CV_Lucas_Rensen.pdf" target="_blank" rel="noopener noreferrer">"Resume"</a>
-                            <a class="btn btn-secondary" href="mailto:lucasrensen@outlook.com">"Get in Touch"</a>
+                            <a class="btn btn-primary" href="/CV_Lucas_Rensen.pdf" target="_blank" rel="noopener noreferrer">
+                                {move || t(lang.get(), "Resume", "CV")}
+                            </a>
+                            <a class="btn btn-secondary" href="mailto:lucasrensen@outlook.com">
+                                {move || t(lang.get(), "Get in Touch", "Neem contact op")}
+                            </a>
                         </div>
                         <p class="hero-location">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                                 <circle cx="12" cy="10" r="3" />
                             </svg>
-                            "Gelderland, NL — open to opportunities nearby"
+                            {move || t(lang.get(), "Gelderland, NL — open to opportunities nearby", "Gelderland, NL — open voor kansen in de buurt")}
                         </p>
                     </div>
                 </section>
@@ -200,38 +365,100 @@ pub fn App() -> impl IntoView {
                 <section id="about" class="section" class:revealed=move || about_revealed.get() node_ref=about_ref>
                     <div class="container split">
                         <div>
-                            <p class="section-label">"About"</p>
-                            <h2>"Developer focused on building solid software without unnecessary complexity."</h2>
+                            <p class="section-label">{move || t(lang.get(), "About", "Over mij")}</p>
+                            <h2>{move || t(
+                                lang.get(),
+                                "Developer focused on building solid software without unnecessary complexity.",
+                                "Developer gericht op het bouwen van solide software zonder onnodige complexiteit.",
+                            )}</h2>
                         </div>
                         <div class="content-card">
                             <p>
-                                "I enjoy building software that is practical, structured, and technically honest."
+                                {move || t(
+                                    lang.get(),
+                                    "I enjoy building software that is practical, structured, and technically honest.",
+                                    "Ik bouw graag software die praktisch, gestructureerd en technisch eerlijk is.",
+                                )}
                             </p>
                             <p>
-                                "My main interests are Rust, backend development, web applications, and interactive projects such as games."
+                                {move || t(
+                                    lang.get(),
+                                    "My main interests are Rust, backend development, web applications, and interactive projects such as games.",
+                                    "Mijn belangrijkste interesses zijn Rust, backend-ontwikkeling, webapplicaties en interactieve projecten zoals games.",
+                                )}
                             </p>
                             <p>
-                                "I care about clean code, clear architecture, and building things that are useful rather than overdesigned."
+                                {move || t(
+                                    lang.get(),
+                                    "I care about clean code, clear architecture, and building things that are useful rather than overdesigned.",
+                                    "Ik hecht waarde aan schone code, heldere architectuur en het bouwen van dingen die nuttig zijn in plaats van overontworpen.",
+                                )}
                             </p>
                         </div>
                     </div>
                 </section>
 
+                <section id="experience" class="section" class:revealed=move || experience_revealed.get() node_ref=experience_ref>
+                    <div class="container">
+                        <p class="section-label">{move || t(lang.get(), "Experience", "Ervaring")}</p>
+                        <h2>{move || t(
+                            lang.get(),
+                            "Hands-on experience from four internships and steady work alongside my studies",
+                            "Praktijkervaring uit vier stages en vast werk naast mijn studie",
+                        )}</h2>
+                        <div class="timeline">
+                            {move || experience
+                                .iter()
+                                .map(|entry| {
+                                    let role = t(lang.get(), entry.role.0, entry.role.1);
+                                    let dates = t(lang.get(), entry.dates.0, entry.dates.1);
+                                    let bullets = entry.bullets.clone();
+                                    view! {
+                                        <div class="timeline-item">
+                                            <div class="timeline-marker"></div>
+                                            <div class="timeline-content">
+                                                <p class="timeline-dates">{dates}</p>
+                                                <h3>{role}</h3>
+                                                <p class="timeline-company">{entry.company}</p>
+                                                <ul>
+                                                    {bullets.into_iter().map(|(en, nl)| view! { <li>{t(lang.get(), en, nl)}</li> }).collect_view()}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+                                })
+                                .collect_view()}
+                        </div>
+                        <p class="timeline-note">
+                            {move || t(
+                                lang.get(),
+                                "Also worked consistently in hospitality alongside school: kitchen and service staff at Ardoer Camping De Jutberg (seasonal, 2023–present) and lifeguard duty there in the summer of 2021.",
+                                "Daarnaast al jaren horeca-werk naast school: keuken- en bedieningswerk bij Ardoer Camping De Jutberg (seizoenswerk, 2023–heden) en badmeester daar in de zomer van 2021.",
+                            )}
+                        </p>
+                    </div>
+                </section>
+
                 <section id="projects" class="section" class:revealed=move || projects_revealed.get() node_ref=projects_ref>
                     <div class="container">
-                        <p class="section-label">"Projects"</p>
-                        <h2>"Projects that reflect my technical direction"</h2>
+                        <p class="section-label">{move || t(lang.get(), "Projects", "Projecten")}</p>
+                        <h2>{move || t(
+                            lang.get(),
+                            "Projects that reflect my technical direction",
+                            "Projecten die mijn technische richting laten zien",
+                        )}</h2>
                         <div class="grid projects-grid">
-                            {projects
-                                .into_iter()
-                                .map(|(title, description, stack, link)| {
+                            {move || projects
+                                .iter()
+                                .map(|p| {
+                                    let description = t(lang.get(), p.description.0, p.description.1);
                                     view! {
                                         <article class="project-card">
-                                            <p class="project-stack">{stack}</p>
-                                            <h3>{title}</h3>
+                                            <p class="project-stack">{p.stack}</p>
+                                            <h3>{p.title}</h3>
                                             <p>{description}</p>
-                                            <a class="project-link" href=link target="_blank" rel="noopener noreferrer">
-                                                "View on GitHub"
+                                            <a class="project-link" href=p.link target="_blank" rel="noopener noreferrer">
+                                                {move || t(lang.get(), "View on GitHub", "Bekijk op GitHub")}
                                             </a>
                                         </article>
                                     }
@@ -243,8 +470,8 @@ pub fn App() -> impl IntoView {
 
                 <section id="skills" class="section" class:revealed=move || skills_revealed.get() node_ref=skills_ref>
                     <div class="container">
-                        <p class="section-label">"Skills"</p>
-                        <h2>"Technologies I work with"</h2>
+                        <p class="section-label">{move || t(lang.get(), "Skills", "Vaardigheden")}</p>
+                        <h2>{move || t(lang.get(), "Technologies I work with", "Technologieën waar ik mee werk")}</h2>
                         <div class="skills-marquee">
                             <div class="skills-track">
                                 {skills_marquee
@@ -261,10 +488,14 @@ pub fn App() -> impl IntoView {
                 <section id="contact" class="section" class:revealed=move || contact_revealed.get() node_ref=contact_ref>
                     <div class="container contact-card">
                         <div>
-                            <p class="section-label">"Contact"</p>
-                            <h2>"Let's build something solid."</h2>
+                            <p class="section-label">{move || t(lang.get(), "Contact", "Contact")}</p>
+                            <h2>{move || t(lang.get(), "Let's build something solid.", "Laten we iets solide bouwen.")}</h2>
                             <p class="contact-copy">
-                                "For projects, collaboration, or simply a good technical conversation."
+                                {move || t(
+                                    lang.get(),
+                                    "For projects, collaboration, or simply a good technical conversation.",
+                                    "Voor projecten, samenwerking, of gewoon een goed technisch gesprek.",
+                                )}
                             </p>
                         </div>
                         <div class="contact-links">

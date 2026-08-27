@@ -145,7 +145,7 @@ body:has(> .site-shell) #app-loading {
     scroll-behavior: auto !important;
   }
 
-  .section, .hero-card > *, .skills-marquee {
+  .section, .hero-card > *, .skills-marquee, .timeline-item {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -217,6 +217,31 @@ body:has(> .site-shell) #app-loading {
       background: $surface;
       transform: translateY(-2px);
       border-color: $accent;
+    }
+  }
+
+  .lang-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid $border;
+    border-radius: 999px;
+    background: transparent;
+    color: $text;
+    font-family: $font-display;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: background 0.25s var(--ease-out-3), transform 0.25s var(--ease-out-3), border-color 0.25s var(--ease-out-3);
+
+    &:hover {
+      background: $surface;
+      transform: translateY(-2px);
+      border-color: $accent-2;
     }
   }
 
@@ -496,13 +521,116 @@ body:has(> .site-shell) #app-loading {
 
 // Om/om wisselende accentkleur per sectie, voor wat visuele afwisseling
 // i.p.v. overal exact dezelfde kleur.
-#projects .section-label,
-#contact .section-label {
+#experience .section-label,
+#skills .section-label {
   color: $accent-2;
 
   &::after {
     background: $accent-2;
   }
+}
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Experience (timeline) ------------------ */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin-top: 2rem;
+  padding-left: 2rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: $border;
+  }
+}
+
+.timeline-item {
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s var(--ease-out-3), transform 0.5s var(--ease-out-3);
+
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) {
+      transition-delay: #{$i * 0.08}s;
+    }
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: -2rem;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: $accent-2;
+    border: 3px solid $bg;
+    box-shadow: 0 0 0 2px $border;
+  }
+
+  .timeline-content {
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.3s var(--ease-out-3), box-shadow 0.3s var(--ease-out-3);
+
+    &:hover {
+      border-color: $accent-2;
+      box-shadow: var(--shadow-3);
+    }
+  }
+
+  .timeline-dates {
+    color: $muted;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.4rem;
+  }
+
+  h3 {
+    margin: 0 0 0.2rem;
+    font-size: 1.15rem;
+  }
+
+  .timeline-company {
+    color: $accent-2;
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: $muted;
+
+    li {
+      margin-bottom: 0.3rem;
+    }
+  }
+}
+
+.section.revealed .timeline-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-note {
+  margin-top: 1.75rem;
+  padding-left: 2rem;
+  color: $muted;
+  font-size: 0.9rem;
+  font-style: italic;
 }
 /* ------------------------------------------------------------ */
 
