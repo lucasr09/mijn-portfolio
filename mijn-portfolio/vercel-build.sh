@@ -15,7 +15,10 @@ curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --profil
 . "$CARGO_HOME/env"
 rustup target add wasm32-unknown-unknown
 
-curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
-cargo binstall trunk --no-confirm
+# cargo-binstall downloadt een kant-en-klare trunk-binary, maar die bleek
+# gelinkt tegen een nieuwere glibc dan Vercel's build-image heeft
+# ("GLIBC_2.35 not found"). Compileer Trunk daarom gewoon vanaf source -
+# kost wat meer tijd, maar kan nooit meer een glibc-mismatch geven.
+cargo install trunk --locked
 
 trunk build --release
