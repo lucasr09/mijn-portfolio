@@ -44,10 +44,28 @@ http://127.0.0.1:3000
 
 ```
 src/
-  components/
-  pages/
-  main.rs
+  lib.rs    # de hele App: layout, secties, taal- en thema-logica
+  main.rs   # mount de App in de body
 ```
+
+## Live zetten via Vercel
+
+Dit project bouwt met Trunk naar een map met pure statische bestanden
+(`dist/`), dus Vercel hoeft zelf geen Rust te draaien — het serveert alleen
+het eindresultaat. De `vercel.json` in deze map regelt dat Vercel tijdens
+elke build eerst Rust + Trunk installeert en dan `trunk build --release`
+draait.
+
+1. Ga naar [vercel.com](https://vercel.com) en importeer deze GitHub-repo.
+2. Omdat het project niet in de root van de repo staat, zet je bij
+   **Root Directory** in de projectinstellingen: `mijn-portfolio`.
+3. Build command en output directory staan al goed via `vercel.json` — hoef
+   je verder niks aan te veranderen.
+4. Deploy. De eerste build duurt iets langer (~2-3 minuten extra) omdat
+   Rust en Trunk geïnstalleerd moeten worden.
+
+Daarna is updaten net zo simpel als bij elk ander Vercel-project: gewoon
+`git push` naar `main`, en Vercel bouwt en deployt automatisch.
 
 ## Doel
 
