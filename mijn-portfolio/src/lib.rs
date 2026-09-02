@@ -79,8 +79,8 @@ pub fn App() -> impl IntoView {
         ProjectEntry {
             title: "Broodjeszaak bon-generator",
             description: (
-                "A review step between paid online bakery orders and the receipt printer, so a mistaken or duplicate order never prints unseen. Sparked by seeing orders retyped by hand at a snackbar. Python CLI and a Flask web app.",
-                "Een controlestap tussen al-betaalde online bestellingen en de bonprinter van een broodjeszaak, zodat een foutieve of dubbele bestelling nooit ongemerkt wordt geprint. Ontstaan doordat ik bestellingen met de hand zag overtypen. Python-CLI en een Flask-webapp.",
+                "At Ardoer Camping De Jutberg, guests order bread via the campsite website (pitch, name, phone, email) and staff retype each one into the register for a kitchen slip. This replaces the retyping with a single review-and-print step, so a mistaken or duplicate order never prints unseen. Python CLI and a Flask web app.",
+                "Bij Ardoer Camping De Jutberg bestellen gasten broodjes via de campingsite (plek, naam, telefoon, e-mail) en typt het personeel elke bestelling over op de kassa voor een keukenbon. Dit vervangt dat overtypen door \u{00e9}\u{00e9}n controleer-en-print-stap, zodat een foutieve of dubbele bestelling nooit ongemerkt wordt geprint. Python-CLI en een Flask-webapp.",
             ),
             stack: "Python, Flask",
             link: "https://github.com/lucasr09/broodjes_zaak_con",
