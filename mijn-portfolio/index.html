@@ -8,9 +8,12 @@
       name="description"
       content="Portfolio of Lucas Rensen, a software developer focused on Rust, backend development, and clean web experiences."
     />
+    <link rel="canonical" href="https://www.lucasrensen.com/" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Open Graph / social previews -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.lucasrensen.com/" />
     <meta property="og:title" content="Lucas Rensen | Portfolio" />
     <meta
       property="og:description"
@@ -23,6 +26,25 @@
       content="Portfolio of Lucas Rensen, a software developer focused on Rust, backend development, and clean web experiences."
     />
 
+    <!-- Gestructureerde data: vertelt zoekmachines expliciet dat deze pagina
+         over de persoon "Lucas Rensen" gaat, en koppelt 'm aan GitHub/LinkedIn
+         als dezelfde identiteit - dit helpt het meest om bij het zoeken op je
+         naam ook echt gevonden te worden. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Lucas Rensen",
+        "url": "https://www.lucasrensen.com/",
+        "jobTitle": "Software Developer",
+        "email": "mailto:lucasrensen@outlook.com",
+        "sameAs": [
+          "https://github.com/lucasr09",
+          "https://www.linkedin.com/in/lucas-rensen-b18b40232/"
+        ]
+      }
+    </script>
+
     <link data-trunk rel="icon" href="public/favicon.ico" />
     <link data-trunk rel="scss" href="public/styles.scss" />
     <link data-trunk rel="rust" data-wasm-opt="z" data-weak-refs />
@@ -34,6 +56,8 @@
          statische HTML (geen Trunk-verwerking), dus die kent het gehashte pad
          van de "rel=icon" hierboven niet en heeft dit vaste pad nodig. -->
     <link data-trunk rel="copy-file" href="public/favicon.ico" />
+    <link data-trunk rel="copy-file" href="public/robots.txt" />
+    <link data-trunk rel="copy-file" href="public/sitemap.xml" />
   </head>
   <body>
     <!--
