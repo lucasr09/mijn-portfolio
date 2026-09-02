@@ -73,6 +73,20 @@ pub fn App() -> impl IntoView {
         },
     ];
 
+    // Losstaand van "Projects": werk-in-uitvoering, bewust als proof of concept
+    // gelabeld i.p.v. als afgerond project.
+    let prototypes = vec![
+        ProjectEntry {
+            title: "Broodjeszaak bon-generator",
+            description: (
+                "At a snackbar I saw paid online orders being retyped into the register by hand to print a kitchen receipt \u{2014} double work and error-prone. This proof of concept automates the receipt, but keeps one deliberate human check between \"paid\" and \"printed\" so a wrong or duplicate order never prints unseen.",
+                "Bij een cafetaria zag ik hoe al-betaalde online bestellingen met de hand werden overgetypt in de kassa om een keukenbon te maken \u{2014} dubbel werk en foutgevoelig. Deze proof of concept automatiseert de bon, maar houdt bewust \u{00e9}\u{00e9}n menselijke controle tussen \"betaald\" en \"geprint\", zodat een foutieve of dubbele bestelling nooit ongemerkt wordt geprint.",
+            ),
+            stack: "Python",
+            link: "https://github.com/lucasr09/broodjes_zaak_con",
+        },
+    ];
+
     let experience = vec![
         ExperienceEntry {
             role: ("Software Developer — Internship", "Software Developer — Stage"),
@@ -183,6 +197,7 @@ pub fn App() -> impl IntoView {
     let about_ref = NodeRef::<html::Section>::new();
     let experience_ref = NodeRef::<html::Section>::new();
     let projects_ref = NodeRef::<html::Section>::new();
+    let prototype_ref = NodeRef::<html::Section>::new();
     let skills_ref = NodeRef::<html::Section>::new();
     let contact_ref = NodeRef::<html::Section>::new();
 
@@ -192,6 +207,8 @@ pub fn App() -> impl IntoView {
     let (experience_in_view, set_experience_in_view) = signal(false);
     let (projects_revealed, set_projects_revealed) = signal(false);
     let (projects_in_view, set_projects_in_view) = signal(false);
+    let (prototype_revealed, set_prototype_revealed) = signal(false);
+    let (prototype_in_view, set_prototype_in_view) = signal(false);
     let (skills_revealed, set_skills_revealed) = signal(false);
     let (skills_in_view, set_skills_in_view) = signal(false);
     let (contact_revealed, set_contact_revealed) = signal(false);
@@ -221,6 +238,15 @@ pub fn App() -> impl IntoView {
             set_projects_in_view.set(intersecting);
             if intersecting {
                 set_projects_revealed.set(true);
+            }
+        }
+    });
+    use_intersection_observer(prototype_ref, move |entries, _| {
+        if let Some(entry) = entries.first() {
+            let intersecting = entry.is_intersecting();
+            set_prototype_in_view.set(intersecting);
+            if intersecting {
+                set_prototype_revealed.set(true);
             }
         }
     });
@@ -325,6 +351,7 @@ pub fn App() -> impl IntoView {
                             <a href="#about" class:active=move || about_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "About", "Over mij")}</a>
                             <a href="#experience" class:active=move || experience_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Experience", "Ervaring")}</a>
                             <a href="#projects" class:active=move || projects_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Projects", "Projecten")}</a>
+                            <a href="#prototype" class:active=move || prototype_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Prototype", "Prototype")}</a>
                             <a href="#skills" class:active=move || skills_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Skills", "Vaardigheden")}</a>
                             <a href="#contact" class:active=move || contact_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Contact", "Contact")}</a>
                         </nav>
@@ -454,6 +481,41 @@ pub fn App() -> impl IntoView {
                                     let description = t(lang.get(), p.description.0, p.description.1);
                                     view! {
                                         <article class="project-card">
+                                            <p class="project-stack">{p.stack}</p>
+                                            <h3>{p.title}</h3>
+                                            <p>{description}</p>
+                                            <a class="project-link" href=p.link target="_blank" rel="noopener noreferrer">
+                                                {move || t(lang.get(), "View on GitHub", "Bekijk op GitHub")}
+                                            </a>
+                                        </article>
+                                    }
+                                })
+                                .collect_view()}
+                        </div>
+                    </div>
+                </section>
+
+                <section id="prototype" class="section" class:revealed=move || prototype_revealed.get() node_ref=prototype_ref>
+                    <div class="container">
+                        <p class="section-label">{move || t(lang.get(), "Prototype", "Prototype")}</p>
+                        <h2>{move || t(
+                            lang.get(),
+                            "Something I built after spotting an inefficiency at work",
+                            "Iets dat ik bouwde nadat ik op mijn werk een ineffici\u{00eb}ntie zag",
+                        )}</h2>
+                        <p class="prototype-intro">{move || t(
+                            lang.get(),
+                            "Still in development \u{2014} shared as a proof of concept, not a finished product.",
+                            "Nog in ontwikkeling \u{2014} gedeeld als proof of concept, niet als afgerond product.",
+                        )}</p>
+                        <div class="grid prototype-grid">
+                            {move || prototypes
+                                .iter()
+                                .map(|p| {
+                                    let description = t(lang.get(), p.description.0, p.description.1);
+                                    view! {
+                                        <article class="project-card prototype-card">
+                                            <span class="prototype-badge">{move || t(lang.get(), "Proof of concept", "Proof of concept")}</span>
                                             <p class="project-stack">{p.stack}</p>
                                             <h3>{p.title}</h3>
                                             <p>{description}</p>

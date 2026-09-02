@@ -725,6 +725,60 @@ body:has(> .site-shell) #app-loading {
 /* ------------------------------------------------------------ */
 
 
+/* --------------------- Prototype ----------------------------
+   Losstaande sectie onder Projects: zelfde kaart-stijl, maar met een
+   "proof of concept"-badge en een kortere intro erboven zodat duidelijk is
+   dat dit werk-in-uitvoering is. */
+.prototype-intro {
+  margin: 0 0 0.5rem;
+  color: $muted;
+  font-size: 0.95rem;
+}
+
+.prototype-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 620px);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+
+  .project-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s var(--ease-out-3), transform 0.5s var(--ease-out-3),
+      box-shadow 0.3s var(--ease-out-3), border-color 0.3s var(--ease-out-3);
+  }
+}
+
+.prototype-card {
+  position: relative;
+}
+
+.prototype-badge {
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
+  color: $accent;
+  font-family: $font-display;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+.section.revealed .prototype-grid .project-card {
+  opacity: 1;
+  transform: translateY(0);
+
+  &:hover {
+    transform: translateY(-6px);
+  }
+}
+/* ------------------------------------------------------------ */
+
+
 /* --------------------- Skills ------------------------------- */
 .skills-marquee {
   position: relative;
@@ -808,6 +862,10 @@ body:has(> .site-shell) #app-loading {
 /* --------------------- Responsive --------------------------- */
 @media (max-width: 900px) {
   .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prototype-grid {
     grid-template-columns: 1fr;
   }
 
