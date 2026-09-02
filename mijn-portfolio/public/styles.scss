@@ -76,13 +76,21 @@ body {
   background-attachment: fixed;
 }
 
-// Donker thema: de warme marmertextuur past niet bij een donker scherm, dus
-// een vlakke, technischere gradient in plaats van de foto.
+// Donker thema: fijn dot-grid + gloed-accenten in de merkkleuren, met de
+// marmertextuur er nog zwak doorheen (sterk verdonkerd) i.p.v. 'm helemaal
+// te laten vallen - houdt de link met het lichte thema voelbaar.
 :root.dark body {
-  background:
-    radial-gradient(circle at 20% 20%, rgba(219, 166, 180, 0.06), transparent 55%),
-    radial-gradient(circle at 80% 60%, rgba(156, 189, 208, 0.05), transparent 55%),
-    var(--bg);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, transparent 0),
+    radial-gradient(circle at 12% 18%, rgba(219, 166, 180, 0.20), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(156, 189, 208, 0.18), transparent 42%),
+    radial-gradient(circle at 50% 100%, rgba(219, 166, 180, 0.12), transparent 55%),
+    linear-gradient(rgba(23, 21, 27, 0.88), rgba(23, 21, 27, 0.9)),
+    url("/marble.jpg");
+  background-size: 26px 26px, auto, auto, auto, cover, cover;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position: 0 0, 0 0, 0 0, 0 0, center, center;
+  background-color: var(--bg);
   background-attachment: fixed;
 }
 
@@ -481,7 +489,7 @@ body:has(> .site-shell) #app-loading {
 
 /* --------------------- Sections ----------------------------- */
 .section {
-  padding: 5rem 0;
+  padding: 3.75rem 0;
   opacity: 0;
   transform: translateY(32px);
   transition: opacity 0.7s var(--ease-out-3), transform 0.7s var(--ease-out-3);
@@ -493,6 +501,10 @@ body:has(> .site-shell) #app-loading {
 
   h2 {
     font-size: 2.5rem;
+    // Expliciete, iets krappere marge i.p.v. de browser-default (~0.83em aan
+    // beide kanten), die zorgde voor onnodig veel lucht boven en onder elke
+    // sectiekop.
+    margin: 0.4rem 0 1.25rem;
   }
 }
 
