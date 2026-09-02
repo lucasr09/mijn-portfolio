@@ -82,7 +82,7 @@ pub fn App() -> impl IntoView {
                 "At a snackbar I saw paid online orders being retyped into the register by hand to print a kitchen receipt \u{2014} double work and error-prone. This proof of concept automates the receipt, but keeps one deliberate human check between \"paid\" and \"printed\" so a wrong or duplicate order never prints unseen.",
                 "Bij een cafetaria zag ik hoe al-betaalde online bestellingen met de hand werden overgetypt in de kassa om een keukenbon te maken \u{2014} dubbel werk en foutgevoelig. Deze proof of concept automatiseert de bon, maar houdt bewust \u{00e9}\u{00e9}n menselijke controle tussen \"betaald\" en \"geprint\", zodat een foutieve of dubbele bestelling nooit ongemerkt wordt geprint.",
             ),
-            stack: "Python",
+            stack: "Python, Flask",
             link: "https://github.com/lucasr09/broodjes_zaak_con",
         },
     ];
