@@ -79,8 +79,8 @@ pub fn App() -> impl IntoView {
         ProjectEntry {
             title: "Broodjeszaak bon-generator",
             description: (
-                "At my job at Ardoer Camping De Jutberg I kept retyping paid bread orders from the campsite website into the register by hand to print a kitchen slip, and saw it could be much simpler. So I built this: check an order once, print the slip straight away, and a mistaken or duplicate order never prints unseen. Python CLI and a Flask web app.",
-                "Op mijn werk bij Ardoer Camping De Jutberg zat ik telkens al-betaalde broodjesbestellingen van de campingsite met de hand over te typen op de kassa om er een keukenbon van te printen, en ik zag dat het veel simpeler kon. Dus bouwde ik dit: een bestelling \u{00e9}\u{00e9}n keer controleren, meteen de bon printen, en een foutieve of dubbele bestelling gaat nooit ongemerkt de keuken in. Python-CLI en een Flask-webapp.",
+                "At my job at Ardoer Camping De Jutberg I kept retyping paid bread orders from the campsite website into the register by hand to print a kitchen slip, and saw it could be much simpler. So I built this: check an order once, print the slip straight away, and never accidentally print the same order twice. Python CLI and a Flask web app.",
+                "Op mijn werk bij Ardoer Camping De Jutberg zat ik telkens al-betaalde broodjesbestellingen van de campingsite met de hand over te typen op de kassa om er een keukenbon van te printen, en ik zag dat het veel simpeler kon. Dus bouwde ik dit: een bestelling \u{00e9}\u{00e9}n keer controleren, meteen de bon printen, en nooit per ongeluk dezelfde bestelling dubbel de keuken in. Python-CLI en een Flask-webapp.",
             ),
             stack: "Python, Flask",
             link: "https://github.com/lucasr09/broodjes_zaak_con",
