@@ -1,6 +1,10 @@
-/* --------------------- Open Props --------------------------- */
-@import "https://unpkg.com/open-props";
-@import "https://unpkg.com/open-props/normalize.min.css";
+/* --------------------- Open Props ---------------------------
+   Zelf gehost i.p.v. via unpkg.com geladen: een externe stylesheet-URL wordt
+   door Sass niet mee-gecompileerd, dus die zou de browser bij elk bezoek
+   opnieuw ophalen - en dat botst met een strikte Content-Security-Policy
+   (style-src). Lokaal importeren wordt gewoon in de build meegebakken. */
+@import "vendor/open-props";
+@import "vendor/open-props-normalize";
 /* ------------------------------------------------------------ */
 
 
