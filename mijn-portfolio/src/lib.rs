@@ -73,14 +73,14 @@ pub fn App() -> impl IntoView {
         },
     ];
 
-    // Losstaand van "Projects": werk-in-uitvoering, bewust als proof of concept
-    // gelabeld i.p.v. als afgerond project.
+    // Eigen sectie onder "Projects", zelfde kaart-opmaak: werk dat bewust als
+    // prototype / proof of concept blijft staan, niet als afgerond project.
     let prototypes = vec![
         ProjectEntry {
             title: "Broodjeszaak bon-generator",
             description: (
-                "At a snackbar I saw paid online orders being retyped into the register by hand to print a kitchen receipt \u{2014} double work and error-prone. This proof of concept automates the receipt, but keeps one deliberate human check between \"paid\" and \"printed\" so a wrong or duplicate order never prints unseen.",
-                "Bij een cafetaria zag ik hoe al-betaalde online bestellingen met de hand werden overgetypt in de kassa om een keukenbon te maken \u{2014} dubbel werk en foutgevoelig. Deze proof of concept automatiseert de bon, maar houdt bewust \u{00e9}\u{00e9}n menselijke controle tussen \"betaald\" en \"geprint\", zodat een foutieve of dubbele bestelling nooit ongemerkt wordt geprint.",
+                "A review step between paid online bakery orders and the receipt printer, so a mistaken or duplicate order never prints unseen. Sparked by seeing orders retyped by hand at a snackbar. Python CLI and a Flask web app.",
+                "Een controlestap tussen al-betaalde online bestellingen en de bonprinter van een broodjeszaak, zodat een foutieve of dubbele bestelling nooit ongemerkt wordt geprint. Ontstaan doordat ik bestellingen met de hand zag overtypen. Python-CLI en een Flask-webapp.",
             ),
             stack: "Python, Flask",
             link: "https://github.com/lucasr09/broodjes_zaak_con",
@@ -351,7 +351,7 @@ pub fn App() -> impl IntoView {
                             <a href="#about" class:active=move || about_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "About", "Over mij")}</a>
                             <a href="#experience" class:active=move || experience_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Experience", "Ervaring")}</a>
                             <a href="#projects" class:active=move || projects_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Projects", "Projecten")}</a>
-                            <a href="#prototype" class:active=move || prototype_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Prototype", "Prototype")}</a>
+                            <a href="#prototype" class:active=move || prototype_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Prototypes", "Prototypes")}</a>
                             <a href="#skills" class:active=move || skills_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Skills", "Vaardigheden")}</a>
                             <a href="#contact" class:active=move || contact_in_view.get() on:click=move |_| close_nav()>{move || t(lang.get(), "Contact", "Contact")}</a>
                         </nav>
@@ -497,25 +497,19 @@ pub fn App() -> impl IntoView {
 
                 <section id="prototype" class="section" class:revealed=move || prototype_revealed.get() node_ref=prototype_ref>
                     <div class="container">
-                        <p class="section-label">{move || t(lang.get(), "Prototype", "Prototype")}</p>
+                        <p class="section-label">{move || t(lang.get(), "Prototypes", "Prototypes")}</p>
                         <h2>{move || t(
                             lang.get(),
-                            "Something I built after spotting an inefficiency at work",
-                            "Iets dat ik bouwde nadat ik op mijn werk een ineffici\u{00eb}ntie zag",
+                            "Prototypes and proof-of-concept work",
+                            "Prototypes en proof-of-concept werk",
                         )}</h2>
-                        <p class="prototype-intro">{move || t(
-                            lang.get(),
-                            "Still in development \u{2014} shared as a proof of concept, not a finished product.",
-                            "Nog in ontwikkeling \u{2014} gedeeld als proof of concept, niet als afgerond product.",
-                        )}</p>
-                        <div class="grid prototype-grid">
+                        <div class="grid projects-grid">
                             {move || prototypes
                                 .iter()
                                 .map(|p| {
                                     let description = t(lang.get(), p.description.0, p.description.1);
                                     view! {
-                                        <article class="project-card prototype-card">
-                                            <span class="prototype-badge">{move || t(lang.get(), "Proof of concept", "Proof of concept")}</span>
+                                        <article class="project-card">
                                             <p class="project-stack">{p.stack}</p>
                                             <h3>{p.title}</h3>
                                             <p>{description}</p>
