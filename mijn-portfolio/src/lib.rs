@@ -16,6 +16,21 @@ fn t(lang: Lang, en: &'static str, nl: &'static str) -> &'static str {
     }
 }
 
+fn use_section_observer(node_ref: NodeRef<html::Section>) -> (ReadSignal<bool>, ReadSignal<bool>) {
+    let (revealed, set_revealed) = signal(false);
+    let (in_view, set_in_view) = signal(false);
+    use_intersection_observer(node_ref, move |entries, _| {
+        if let Some(entry) = entries.first() {
+            let intersecting = entry.is_intersecting();
+            set_in_view.set(intersecting);
+            if intersecting {
+                set_revealed.set(true);
+            }
+        }
+    });
+    (revealed, in_view)
+}
+
 fn stored_lang() -> Lang {
     window()
         .local_storage()
@@ -127,11 +142,11 @@ pub fn App() -> impl IntoView {
                 ),
                 (
                     "Developed a central launcher tool built around one generic \"open file\" function, so staff could jump to frequently used programs with a click instead of navigating to them manually",
-                    "Centrale launcher-tool ontwikkeld rond één generieke \"open file\"-functie, zodat collega's met één klik naar veelgebruikte programma's konden springen in plaats van er handmatig naartoe te navigeren",
+                    "Centrale launcher-tool gebouwd zodat collega's veelgebruikte programma's met één klik konden openen, in plaats van er elke keer handmatig naartoe te klikken",
                 ),
                 (
                     "Assisted with automation projects",
-                    "Meegelopen met automatiseringsprojecten",
+                    "Meegewerkt aan automatiseringsprojecten",
                 ),
             ],
         },
@@ -202,73 +217,12 @@ pub fn App() -> impl IntoView {
     let skills_ref = NodeRef::<html::Section>::new();
     let contact_ref = NodeRef::<html::Section>::new();
 
-    let (about_revealed, set_about_revealed) = signal(false);
-    let (about_in_view, set_about_in_view) = signal(false);
-    let (experience_revealed, set_experience_revealed) = signal(false);
-    let (experience_in_view, set_experience_in_view) = signal(false);
-    let (projects_revealed, set_projects_revealed) = signal(false);
-    let (projects_in_view, set_projects_in_view) = signal(false);
-    let (prototype_revealed, set_prototype_revealed) = signal(false);
-    let (prototype_in_view, set_prototype_in_view) = signal(false);
-    let (skills_revealed, set_skills_revealed) = signal(false);
-    let (skills_in_view, set_skills_in_view) = signal(false);
-    let (contact_revealed, set_contact_revealed) = signal(false);
-    let (contact_in_view, set_contact_in_view) = signal(false);
-
-    use_intersection_observer(about_ref, move |entries, _| {
-        if let Some(entry) = entries.first() {
-            let intersecting = entry.is_intersecting();
-            set_about_in_view.set(intersecting);
-            if intersecting {
-                set_about_revealed.set(true);
-            }
-        }
-    });
-    use_intersection_observer(experience_ref, move |entries, _| {
-        if let Some(entry) = entries.first() {
-            let intersecting = entry.is_intersecting();
-            set_experience_in_view.set(intersecting);
-            if intersecting {
-                set_experience_revealed.set(true);
-            }
-        }
-    });
-    use_intersection_observer(projects_ref, move |entries, _| {
-        if let Some(entry) = entries.first() {
-            let intersecting = entry.is_intersecting();
-            set_projects_in_view.set(intersecting);
-            if intersecting {
-                set_projects_revealed.set(true);
-            }
-        }
-    });
-    use_intersection_observer(prototype_ref, move |entries, _| {
-        if let Some(entry) = entries.first() {
-            let intersecting = entry.is_intersecting();
-            set_prototype_in_view.set(intersecting);
-            if intersecting {
-                set_prototype_revealed.set(true);
-            }
-        }
-    });
-    use_intersection_observer(skills_ref, move |entries, _| {
-        if let Some(entry) = entries.first() {
-            let intersecting = entry.is_intersecting();
-            set_skills_in_view.set(intersecting);
-            if intersecting {
-                set_skills_revealed.set(true);
-            }
-        }
-    });
-    use_intersection_observer(contact_ref, move |entries, _| {
-        if let Some(entry) = entries.first() {
-            let intersecting = entry.is_intersecting();
-            set_contact_in_view.set(intersecting);
-            if intersecting {
-                set_contact_revealed.set(true);
-            }
-        }
-    });
+    let (about_revealed, about_in_view) = use_section_observer(about_ref);
+    let (experience_revealed, experience_in_view) = use_section_observer(experience_ref);
+    let (projects_revealed, projects_in_view) = use_section_observer(projects_ref);
+    let (prototype_revealed, prototype_in_view) = use_section_observer(prototype_ref);
+    let (skills_revealed, skills_in_view) = use_section_observer(skills_ref);
+    let (contact_revealed, contact_in_view) = use_section_observer(contact_ref);
 
     let (_scroll_x, scroll_y) = use_window_scroll();
     let nav_scrolled = move || scroll_y.get() > 8.0;
@@ -369,7 +323,7 @@ pub fn App() -> impl IntoView {
                             {move || t(
                                 lang.get(),
                                 "I build software with a focus on Rust, backend development, and clean web experiences.",
-                                "Ik bouw software met een focus op Rust, backend-ontwikkeling en overzichtelijke webapplicaties.",
+                                "Ik schrijf software met Rust als basis — gericht op backend-ontwikkeling en schone webapplicaties.",
                             )}
                         </p>
                         <div class="hero-actions">
@@ -405,21 +359,21 @@ pub fn App() -> impl IntoView {
                                 {move || t(
                                     lang.get(),
                                     "I enjoy building software that is practical, structured, and technically honest.",
-                                    "Ik bouw graag software die praktisch, gestructureerd en zonder franje in elkaar zit.",
+                                    "Ik bouw graag software die praktisch is, gestructureerd, en gewoon doet wat het moet doen.",
                                 )}
                             </p>
                             <p>
                                 {move || t(
                                     lang.get(),
                                     "My main interests are Rust, backend development, web applications, and interactive projects such as games.",
-                                    "Mijn belangrijkste interesses zijn Rust, backend-ontwikkeling, webapplicaties en interactieve projecten zoals games.",
+                                    "Ik hou me het liefst bezig met Rust, backend-ontwikkeling, webapplicaties en interactieve projecten zoals games.",
                                 )}
                             </p>
                             <p>
                                 {move || t(
                                     lang.get(),
                                     "I care about clean code, clear architecture, and building things that are useful rather than overdesigned.",
-                                    "Ik hecht waarde aan schone code, heldere architectuur en het bouwen van dingen die nuttig zijn in plaats van onnodig ingewikkeld.",
+                                    "Schone code, een heldere opzet — en bouwen wat echt nuttig is, liever dan overontwerpen.",
                                 )}
                             </p>
                         </div>
@@ -546,7 +500,7 @@ pub fn App() -> impl IntoView {
                     <div class="container contact-card">
                         <div>
                             <p class="section-label">{move || t(lang.get(), "Contact", "Contact")}</p>
-                            <h2>{move || t(lang.get(), "Let's build something solid.", "Laten we iets solide bouwen.")}</h2>
+                            <h2>{move || t(lang.get(), "Let's build something solid.", "Zin om samen iets neer te zetten?")}</h2>
                             <p class="contact-copy">
                                 {move || t(
                                     lang.get(),
