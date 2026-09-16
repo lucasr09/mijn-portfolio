@@ -100,6 +100,15 @@ pub fn App() -> impl IntoView {
             stack: "Python, Flask",
             link: "https://github.com/lucasr09/broodjes_zaak_con",
         },
+        ProjectEntry {
+            title: "Wereldreiziger",
+            description: (
+                "I wanted an easy way to keep track of which countries I've visited, want to visit, or live in — and existing apps never showed the things I actually cared about: population, land area, biggest cities, and how popular a country really is with Dutch travelers. So I built my own: a desktop app with an interactive, zoomable world map, live data from the World Bank and GeoNames, and a unique photo per country. Rust end to end — Tauri backend, Leptos frontend.",
+                "Ik wilde makkelijk kunnen bijhouden welke landen ik heb bezocht, wil bezoeken, of woon — en bestaande apps lieten nooit zien wat ik zelf belangrijk vond: inwonertal, oppervlakte, grootste steden, en hoe populair een land eigenlijk is onder Nederlandse reizigers. Dus bouwde ik mijn eigen versie: een desktopapp met een interactieve, inzoombare wereldkaart, live data van de World Bank en GeoNames, en een unieke foto per land. Volledig in Rust — Tauri-backend, Leptos-frontend.",
+            ),
+            stack: "Rust, Tauri, Leptos",
+            link: "https://github.com/lucasr09/wereldreiziger",
+        },
     ];
 
     let experience = vec![
