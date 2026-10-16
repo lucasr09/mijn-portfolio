@@ -247,10 +247,16 @@ pub fn App() -> impl IntoView {
             role: ("Cafetaria Staff (part-time)", "Cafetariamedewerker (parttime)"),
             company: "Cafetaria Lunchroom Kolkie",
             dates: ("Nov 2025 – Mar 2026", "nov 2025 – mrt 2026"),
-            bullets: vec![(
-                "Worked the counter and kitchen at the business behind my Kolkie Website and Kolkie Inkloksysteem projects",
-                "Achter de balie en in de keuken gewerkt bij de zaak waarvoor ik ook de Kolkie Website en het Kolkie Inkloksysteem heb gebouwd",
-            )],
+            bullets: vec![
+                (
+                    "Worked at the cafetaria snack bar: taking orders, working the fryers and helping customers",
+                    "Gewerkt in de cafetaria-snackbar: bestellingen aannemen, frituren en klanten helpen",
+                ),
+                (
+                    "Also built the Kolkie Website and the Kolkie Inkloksysteem for the same business",
+                    "Voor dezelfde zaak heb ik ook de Kolkie Website en het Kolkie Inkloksysteem gebouwd",
+                ),
+            ],
         },
         ExperienceEntry {
             role: ("Software Developer (internship)", "Software Developer (stage)"),
