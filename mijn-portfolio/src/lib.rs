@@ -297,6 +297,10 @@ pub fn App() -> impl IntoView {
                     "Naast school elk seizoen van maart tot oktober in de snackbar van de camping gewerkt",
                 ),
                 (
+                    "Also stepped in as an assistant cook from time to time",
+                    "Af en toe ook ingezet als hulpkok",
+                ),
+                (
                     "Ran the bread service, which inspired my bon-generator prototype",
                     "De broodjesservice gedraaid, waar ook het idee voor mijn bon-generator vandaan kwam",
                 ),
