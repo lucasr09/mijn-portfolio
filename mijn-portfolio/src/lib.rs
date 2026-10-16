@@ -288,13 +288,13 @@ pub fn App() -> impl IntoView {
             ],
         },
         ExperienceEntry {
-            role: ("Kitchen & Service Staff (seasonal)", "Keuken- en bedieningsmedewerker (seizoenswerk)"),
+            role: ("Snack Bar Staff (seasonal)", "Snackbarmedewerker (seizoenswerk)"),
             company: "Ardoer Camping De Jutberg",
             dates: ("2023 – 2026", "2023 – 2026"),
             bullets: vec![
                 (
-                    "Worked in the kitchen and front of house every season from March to October, alongside school",
-                    "Naast school elk seizoen van maart tot oktober in de keuken en de bediening gewerkt",
+                    "Worked at the campsite's snack bar every season from March to October, alongside school",
+                    "Naast school elk seizoen van maart tot oktober in de snackbar van de camping gewerkt",
                 ),
                 (
                     "Ran the bread service, which inspired my bon-generator prototype",
