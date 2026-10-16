@@ -32,13 +32,19 @@ $accent: var(--accent);
 $accent-2: var(--accent-2);
 $border: var(--border);
 
+// Rood/groen om en om, zoals de dubbelring van een dartbord. Gebruikt als
+// streep onder de navbar en boven de footer.
+$dart-ring: repeating-linear-gradient(90deg, $accent 0 36px, $accent-2 36px 72px);
+
 :root {
   --bg: #f6efe9;
   --surface: rgba(255, 250, 246, 0.9);
   --text: #1f1a17;
   --muted: #6f625b;
-  --accent: #b98795;
-  --accent-2: #6f8a9c;
+  // Rood en groen van een dartbord, iets gedempt zodat het bij de crème
+  // marmerachtergrond past i.p.v. te schreeuwen.
+  --accent: #b23a48;
+  --accent-2: #2f7a57;
   --border: rgba(120, 91, 80, 0.14);
 }
 
@@ -47,8 +53,8 @@ $border: var(--border);
   --surface: rgba(32, 30, 37, 0.85);
   --text: #f3efe9;
   --muted: #a89ea3;
-  --accent: #dba6b4;
-  --accent-2: #9cbdd0;
+  --accent: #e4717a;
+  --accent-2: #6cc095;
   --border: rgba(255, 255, 255, 0.1);
 }
 /* ------------------------------------------------------------ */
@@ -71,7 +77,12 @@ body {
   letter-spacing: -0.01em;
   transition: background-color 0.4s var(--ease-out-3), color 0.3s var(--ease-out-3);
 
+  // Zelfde idee als de gloed in dark mode: zacht dartbord-rood linksboven en
+  // -groen rechtsboven, over de crème marmerlaag heen.
   background:
+    radial-gradient(circle at 12% 18%, rgba(178, 58, 72, 0.10), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(47, 122, 87, 0.09), transparent 42%),
+    radial-gradient(circle at 50% 100%, rgba(178, 58, 72, 0.06), transparent 55%),
     linear-gradient(rgba(246,239,233,0.75), rgba(246,239,233,0.8)),
   url("/marble.jpg");
 
@@ -86,9 +97,9 @@ body {
 :root.dark body {
   background-image:
     radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, transparent 0),
-    radial-gradient(circle at 12% 18%, rgba(219, 166, 180, 0.20), transparent 42%),
-    radial-gradient(circle at 88% 12%, rgba(156, 189, 208, 0.18), transparent 42%),
-    radial-gradient(circle at 50% 100%, rgba(219, 166, 180, 0.12), transparent 55%),
+    radial-gradient(circle at 12% 18%, rgba(228, 113, 122, 0.16), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(108, 192, 149, 0.13), transparent 42%),
+    radial-gradient(circle at 50% 100%, rgba(228, 113, 122, 0.10), transparent 55%),
     linear-gradient(rgba(23, 21, 27, 0.88), rgba(23, 21, 27, 0.9)),
     url("/marble.jpg");
   background-size: 26px 26px, auto, auto, auto, cover, cover;
@@ -157,7 +168,7 @@ body:has(> .site-shell) #app-loading {
     scroll-behavior: auto !important;
   }
 
-  .section, .hero-card > *, .skills-marquee, .timeline-item {
+  .section, .hero-card > *, .skills-marquee, .timeline-item, .interest-card {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -187,6 +198,17 @@ body:has(> .site-shell) #app-loading {
   background: color-mix(in srgb, var(--bg) 60%, transparent);
   border-bottom: 1px solid transparent;
   transition: background 0.3s var(--ease-out-3), border-color 0.3s var(--ease-out-3), box-shadow 0.3s var(--ease-out-3);
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 3px;
+    background: $dart-ring;
+    opacity: 0.85;
+  }
 
   &.scrolled {
     background: color-mix(in srgb, var(--bg) 88%, transparent);
@@ -263,6 +285,35 @@ body:has(> .site-shell) #app-loading {
     letter-spacing: 0.08em;
   }
 
+  // Easter egg: 3x op het logo klikken (zie lib.rs). Ploft als een
+  // scorebord-label onder het logo uit.
+  .logo-wrap {
+    position: relative;
+  }
+
+  .logo-180 {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 0.6rem);
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+    background: $accent;
+    color: white;
+    font-family: $font-display;
+    font-weight: 700;
+    font-size: 1rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-50%) scale(0.4) rotate(-12deg);
+    transition: opacity 0.25s var(--ease-out-3), transform 0.45s cubic-bezier(0.34, 1.8, 0.64, 1);
+
+    &.show {
+      opacity: 1;
+      transform: translateY(-50%) scale(1) rotate(-4deg);
+    }
+  }
+
   .nav-links {
     display: flex;
     align-items: center;
@@ -303,6 +354,11 @@ body:has(> .site-shell) #app-loading {
 
       &.active::after {
         transform: scaleX(1);
+      }
+
+      // Onderstreping om en om rood en groen.
+      &:nth-child(even)::after {
+        background: $accent-2;
       }
     }
   }
@@ -392,6 +448,8 @@ body:has(> .site-shell) #app-loading {
   align-items: center;
 
   .hero-card {
+    position: relative;
+    overflow: hidden;
     background: $surface;
     border: 1px solid $border;
     border-radius: 24px;
@@ -408,6 +466,31 @@ body:has(> .site-shell) #app-loading {
     > *:nth-child(3) { animation-delay: 0.25s; }
     > *:nth-child(4) { animation-delay: 0.35s; }
     > *:nth-child(5) { animation-delay: 0.45s; }
+  }
+
+  // Decoratief dartbord rechts in de kaart, half buiten beeld. Geen transform
+  // voor de centrering: de hero-in animatie overschrijft transform op elk kind.
+  .hero-board {
+    position: absolute;
+    top: 50%;
+    right: -110px;
+    width: 440px;
+    height: 440px;
+    margin-top: -220px;
+    pointer-events: none;
+    z-index: 0;
+
+    .dartboard {
+      width: 100%;
+      height: 100%;
+      opacity: 0.13;
+      rotate: 9deg;
+    }
+  }
+
+  .hero-card > :not(.hero-board) {
+    position: relative;
+    z-index: 1;
   }
 
   h1 {
@@ -444,6 +527,35 @@ body:has(> .site-shell) #app-loading {
   }
 }
 
+@media (max-width: 700px) {
+  .hero .hero-board {
+    width: 280px;
+    height: 280px;
+    margin-top: -140px;
+    right: -120px;
+
+    .dartboard {
+      opacity: 0.09;
+    }
+  }
+}
+
+.dartboard {
+  .db-dark { fill: #1f1a17; }
+  .db-light { fill: #efe3cf; }
+  .db-red { fill: $accent; }
+  .db-green { fill: $accent-2; }
+}
+
+:root.dark .dartboard .db-light {
+  fill: #6d6358;
+}
+
+// Het lichte groen in dark mode is te licht voor witte tekst.
+:root.dark .btn.btn-secondary {
+  color: #17151b;
+}
+
 /* --------------------- Buttons -------------------------------
    Globale .btn component: gebruikt in de hero-actions én de resume-knop
    in de nav, dus niet onder .hero-actions scopen (stond eerst per ongeluk
@@ -469,11 +581,13 @@ body:has(> .site-shell) #app-loading {
     }
   }
 
+  // Groen naast de rode primaire knop: samen de kleuren van een dartbord.
   &.btn-secondary {
-    border: 1px solid $border;
+    background: $accent-2;
+    color: white;
 
     &:hover {
-      background: $surface;
+      filter: brightness(1.08);
     }
   }
 }
@@ -549,6 +663,65 @@ body:has(> .site-shell) #app-loading {
 /* ------------------------------------------------------------ */
 
 
+/* --------------------- About ------------------------------- */
+// Witregel boven de alinea over opleiding en werk, zodat die los staat van
+// de alinea's over hoe ik werk (de normalize zet alle marges op 0).
+.content-card .about-education {
+  margin-top: 1rem;
+}
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Interests ---------------------------- */
+// Kaartjes met een gekleurde bovenrand, om en om rood en groen.
+.interests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.interest-card {
+  background: $surface;
+  border: 1px solid $border;
+  border-top: 3px solid $accent;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s var(--ease-out-3), transform 0.5s var(--ease-out-3), box-shadow 0.3s var(--ease-out-3);
+
+  &:nth-child(even) {
+    border-top-color: $accent-2;
+  }
+
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) {
+      transition-delay: #{$i * 0.08}s;
+    }
+  }
+
+  &:hover {
+    box-shadow: var(--shadow-3);
+  }
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  p {
+    margin: 0;
+    color: $muted;
+  }
+}
+
+.section.revealed .interest-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* ------------------------------------------------------------ */
+
+
 /* --------------------- Experience (timeline) ------------------ */
 .timeline {
   position: relative;
@@ -581,16 +754,22 @@ body:has(> .site-shell) #app-loading {
     }
   }
 
+  // Mini-dartbord: bull, outer bull en een donkere ring.
   .timeline-marker {
     position: absolute;
     left: -2rem;
-    top: 6px;
-    width: 12px;
-    height: 12px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    margin-left: -1px;
     border-radius: 50%;
-    background: $accent-2;
-    border: 3px solid $bg;
-    box-shadow: 0 0 0 2px $border;
+    background: radial-gradient(circle, $accent 0 24%, $accent-2 26% 50%, #1f1a17 52%);
+    box-shadow: 0 0 0 2px $bg, 0 0 0 3px $border;
+  }
+
+  // Huidige baan bovenaan: zachte puls, "hier zit ik nu".
+  &:first-child .timeline-marker {
+    animation: marker-pulse 2.4s var(--ease-out-3) infinite;
   }
 
   .timeline-content {
@@ -637,6 +816,21 @@ body:has(> .site-shell) #app-loading {
   }
 }
 
+@keyframes marker-pulse {
+  0% { box-shadow: 0 0 0 2px $bg, 0 0 0 3px $border, 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent); }
+  100% { box-shadow: 0 0 0 2px $bg, 0 0 0 3px $border, 0 0 0 12px transparent; }
+}
+
+.timeline-item.internship {
+  .timeline-content:hover {
+    border-color: $accent;
+  }
+
+  .timeline-company {
+    color: $accent;
+  }
+}
+
 .section.revealed .timeline-item {
   opacity: 1;
   transform: translateY(0);
@@ -675,6 +869,11 @@ body:has(> .site-shell) #app-loading {
 
     h3 {
       margin-top: 0.5rem;
+    }
+
+    // Lange beschrijvingen zijn in alinea's opgeknipt (lege regel in lib.rs).
+    .project-desc p + p {
+      margin-top: 0.75rem;
     }
 
     p {
@@ -800,7 +999,63 @@ body:has(> .site-shell) #app-loading {
         transform: translateX(4px);
         opacity: 0.8;
       }
+
+      &[href*="github.com"] {
+        color: $accent-2;
+      }
     }
+  }
+}
+/* ------------------------------------------------------------ */
+
+
+/* --------------------- Footer ------------------------------- */
+.site-footer {
+  position: relative;
+  margin-top: 2.5rem;
+  background: $surface;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    background: $dart-ring;
+    opacity: 0.85;
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+    padding: 1.5rem 0;
+  }
+
+  p {
+    margin: 0;
+    color: $muted;
+    font-size: 0.9rem;
+  }
+
+  .footer-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $text;
+    font-family: $font-display;
+    font-weight: 600;
+  }
+
+  // Zelfde mini-dartbord als de timeline-markers.
+  .footer-bull {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle, $accent 0 24%, $accent-2 26% 50%, #1f1a17 52%);
   }
 }
 /* ------------------------------------------------------------ */
