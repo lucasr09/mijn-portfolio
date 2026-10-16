@@ -287,6 +287,25 @@ pub fn App() -> impl IntoView {
                 ),
             ],
         },
+        ExperienceEntry {
+            role: ("Kitchen & Service Staff (seasonal)", "Keuken- en bedieningsmedewerker (seizoenswerk)"),
+            company: "Ardoer Camping De Jutberg",
+            dates: ("2023 – 2026", "2023 – 2026"),
+            bullets: vec![
+                (
+                    "Worked in the kitchen and front of house every season from March to October, alongside school",
+                    "Naast school elk seizoen van maart tot oktober in de keuken en de bediening gewerkt",
+                ),
+                (
+                    "Ran the bread service, which inspired my bon-generator prototype",
+                    "De broodjesservice gedraaid, waar ook het idee voor mijn bon-generator vandaan kwam",
+                ),
+                (
+                    "Lifeguard at the campsite in the summer of 2021",
+                    "Badmeester op de camping in de zomer van 2021",
+                ),
+            ],
+        },
     ];
 
     let skills = vec![
@@ -610,13 +629,6 @@ pub fn App() -> impl IntoView {
                                 })
                                 .collect_view()}
                         </div>
-                        <p class="timeline-note">
-                            {move || t(
-                                lang.get(),
-                                "Also worked consistently in hospitality alongside school: kitchen and service staff at Ardoer Camping De Jutberg (seasonal, 2023–2026) and lifeguard duty there in the summer of 2021.",
-                                "Naast school heb ik altijd in de horeca gewerkt: in de keuken en de bediening bij Ardoer Camping De Jutberg (seizoenswerk, 2023–2026), waar ik in de zomer van 2021 ook badmeester was.",
-                            )}
-                        </p>
                     </div>
                 </section>
 
